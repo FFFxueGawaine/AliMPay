@@ -1,10 +1,27 @@
 import { AlipaySdk } from "alipay-sdk";
+import urllib from "urllib";
 import type { OrderRecord } from "../shared/contracts";
 import { getPaymentPollIntervalSeconds, getSecret } from "./config";
 import { audit, getSetting, type AppDatabase } from "./db";
 import { AppError } from "./errors";
 import { getActiveOrders, recordAndMatchPayment, type AccountLogEvent } from "./orders";
 import { parseMoneyToCents } from "./security";
+
+// ponytail: Bun 1.3 ignores urllib's phase timeouts and auto-decodes gzip. Scope
+// this shim to SDK account-log calls; remove when the SDK/runtime supports both.
+const request = urllib.request;
+urllib.request = (url, options) => {
+  if (String(options?.headers?.["user-agent"] ?? "").startsWith("alipay-sdk-nodejs-") &&
+      new URL(String(url)).pathname === "/v3/alipay/data/bill/accountlog/query") {
+    const deadline = AbortSignal.timeout(8_000);
+    return request(url, {
+      ...options,
+      headers: { ...options?.headers, "accept-encoding": "identity" },
+      signal: options?.signal instanceof AbortSignal ? AbortSignal.any([options.signal, deadline]) : deadline,
+    });
+  }
+  return request(url, options);
+};
 
 export interface AccountLogPage {
   pageNo: number;
@@ -199,7 +216,19 @@ export class PaymentScanner {
       let totalSize = Number.POSITIVE_INFINITY;
 
       while ((pageNo - 1) * pageSize < totalSize) {
-        const page = await this.provider.query({ startTime, endTime, pageNo, pageSize });
+        // A broken transport must not hold the shared scanner; late results are ignored.
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        let page: AccountLogPage;
+        try {
+          page = await Promise.race([
+            this.provider.query({ startTime, endTime, pageNo, pageSize }),
+            new Promise<never>((_, reject) => {
+              timer = setTimeout(() => reject(new Error("Alipay account-log query exceeded 10000ms deadline")), 10_000);
+            }),
+          ]);
+        } finally {
+          clearTimeout(timer);
+        }
         pages += 1;
         totalSize = page.totalSize || page.details.length;
         traceId ||= page.traceId;
