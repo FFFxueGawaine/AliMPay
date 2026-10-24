@@ -280,6 +280,11 @@ bun test tests       # 单元测试
 bun run test:e2e     # Playwright 端到端测试（需 bunx playwright install chromium）
 ```
 
+## 贡献者
+
+- [@FFFxueGawaine](https://github.com/FFFxueGawaine)：本 fork 维护者，线上部署与验收
+- [Claude](https://claude.com/claude-code)：扫账超时修复、收银台改版、教程与示意图
+
 ## 致谢
 
 - [MiaM1ku/AliMPay](https://github.com/MiaM1ku/AliMPay)：Bun 重写版，本仓库的上游
