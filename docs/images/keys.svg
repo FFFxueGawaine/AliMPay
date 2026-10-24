@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC','Noto Sans SC',sans-serif">
+  <defs>
+    <marker id="m-ali" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1677ff"/></marker>
+    <marker id="m-gw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#059669"/></marker>
+    <marker id="m-shop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <rect width="1200" height="500" rx="20" fill="#ffffff"/>
+  <text x="600" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">密钥与参数放在哪</text>
+  <text x="600" y="72" text-anchor="middle" font-size="15" fill="#64748b">开放平台只认 AliMPay，网站只认 AliMPay，两边的密钥互不混用</text>
+
+  <!-- boxes -->
+  <g text-anchor="middle">
+    <rect x="40" y="105" width="240" height="300" rx="14" fill="#e0edff" stroke="#1677ff" stroke-width="2"/>
+    <text x="160" y="142" font-size="19" font-weight="700" fill="#0958d9">支付宝开放平台</text>
+    <g font-size="14.5" fill="#1e3a8a">
+      <text x="160" y="190">网页应用</text>
+      <text x="160" y="220">加签：密钥 · RSA2</text>
+      <text x="160" y="250">商家账单查询能力</text>
+      <text x="160" y="280">应用状态：已上线</text>
+      <text x="160" y="330" fill="#64748b" font-size="13">网关 / 回调 / IP 白名单</text>
+      <text x="160" y="350" fill="#64748b" font-size="13">全部留空</text>
+    </g>
+
+    <rect x="480" y="105" width="240" height="300" rx="14" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+    <text x="600" y="142" font-size="19" font-weight="700" fill="#047857">AliMPay</text>
+    <rect x="505" y="168" width="190" height="54" rx="10" fill="#ffffff" stroke="#047857" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="600" y="191" font-size="15" font-weight="700" fill="#047857">应用私钥</text>
+    <text x="600" y="211" font-size="12.5" fill="#047857">只在这里，不外传</text>
+    <g font-size="14.5" fill="#065f46">
+      <text x="600" y="255">经营码图片</text>
+      <text x="600" y="285">支付宝公钥 + APPID</text>
+      <text x="600" y="315">V1 PID / key</text>
+      <text x="600" y="355" fill="#64748b" font-size="13">敏感字段用 .master-key</text>
+      <text x="600" y="375" fill="#64748b" font-size="13">AES-256-GCM 加密存库</text>
+    </g>
+
+    <rect x="920" y="105" width="240" height="300" rx="14" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="1040" y="142" font-size="19" font-weight="700" fill="#6d28d9">你的网站</text>
+    <g font-size="14.5" fill="#4c1d95">
+      <text x="1040" y="190">易支付通道</text>
+      <text x="1040" y="220">type=alipay</text>
+      <text x="1040" y="250">网关 = AliMPay 域名</text>
+      <text x="1040" y="280">验签 + 返回 success</text>
+      <text x="1040" y="330" fill="#64748b" font-size="13">不需要任何</text>
+      <text x="1040" y="350" fill="#64748b" font-size="13">支付宝密钥</text>
+    </g>
+  </g>
+
+  <!-- arrows: platform <-> AliMPay -->
+  <g font-size="15" text-anchor="middle" font-weight="700">
+    <line x1="286" y1="190" x2="474" y2="190" stroke="#1677ff" stroke-width="2.5" marker-end="url(#m-ali)"/>
+    <text x="380" y="180" fill="#0958d9">APPID</text>
+    <line x1="474" y1="255" x2="286" y2="255" stroke="#059669" stroke-width="2.5" marker-end="url(#m-gw)"/>
+    <text x="380" y="245" fill="#047857">应用公钥</text>
+    <line x1="286" y1="320" x2="474" y2="320" stroke="#1677ff" stroke-width="2.5" marker-end="url(#m-ali)"/>
+    <text x="380" y="310" fill="#0958d9">支付宝公钥</text>
+
+    <!-- AliMPay <-> website -->
+    <line x1="726" y1="190" x2="914" y2="190" stroke="#059669" stroke-width="2.5" marker-end="url(#m-gw)"/>
+    <text x="820" y="180" fill="#047857">V1 PID + key</text>
+    <line x1="914" y1="255" x2="726" y2="255" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#m-shop)"/>
+    <text x="820" y="245" fill="#6d28d9">下单 /submit.php</text>
+    <line x1="726" y1="320" x2="914" y2="320" stroke="#059669" stroke-width="2.5" marker-end="url(#m-gw)"/>
+    <text x="820" y="310" fill="#047857">回调 notify_url</text>
+  </g>
+
+  <text x="600" y="450" text-anchor="middle" font-size="15" fill="#b91c1c" font-weight="700">最常见的错误：应用公钥和支付宝公钥贴反</text>
+  <text x="600" y="476" text-anchor="middle" font-size="13.5" fill="#64748b">应用公钥 AliMPay 生成 → 贴到开放平台；支付宝公钥 开放平台生成 → 贴回 AliMPay</text>
+</svg>

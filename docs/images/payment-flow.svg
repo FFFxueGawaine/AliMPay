@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC','Noto Sans SC',sans-serif">
+  <defs>
+    <marker id="m-user" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="m-shop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker>
+    <marker id="m-gw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#059669"/></marker>
+    <marker id="m-ali" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1677ff"/></marker>
+  </defs>
+
+  <rect width="1200" height="800" rx="20" fill="#ffffff"/>
+  <text x="600" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">AliMPay 支付流程</text>
+  <text x="600" y="72" text-anchor="middle" font-size="15" fill="#64748b">顾客扫你自己的经营码付款，AliMPay 查账确认后按易支付协议回调网站发货</text>
+
+  <!-- lifelines -->
+  <g stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6">
+    <line x1="150" y1="145" x2="150" y2="765"/>
+    <line x1="450" y1="145" x2="450" y2="765"/>
+    <line x1="750" y1="145" x2="750" y2="765"/>
+    <line x1="1050" y1="145" x2="1050" y2="765"/>
+  </g>
+
+  <!-- actors -->
+  <g font-size="19" font-weight="700" text-anchor="middle">
+    <rect x="60" y="95" width="180" height="50" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+    <text x="150" y="127" fill="#334155">顾客</text>
+    <rect x="360" y="95" width="180" height="50" rx="12" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="450" y="127" fill="#6d28d9">你的发卡站</text>
+    <rect x="660" y="95" width="180" height="50" rx="12" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+    <text x="750" y="127" fill="#047857">AliMPay</text>
+    <rect x="960" y="95" width="180" height="50" rx="12" fill="#e0edff" stroke="#1677ff" stroke-width="2"/>
+    <text x="1050" y="127" fill="#0958d9">支付宝</text>
+  </g>
+
+  <!-- messages -->
+  <g font-size="16" text-anchor="middle" paint-order="stroke" stroke-linejoin="round">
+    <line x1="156" y1="195" x2="444" y2="195" stroke="#475569" stroke-width="2.5" marker-end="url(#m-user)"/>
+    <text x="300" y="185" fill="#334155" stroke="#fff" stroke-width="6">① 下单购买</text>
+
+    <line x1="456" y1="255" x2="744" y2="255" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#m-shop)"/>
+    <text x="600" y="245" fill="#6d28d9" stroke="#fff" stroke-width="6">② 跳转收银台 /submit.php</text>
+
+    <line x1="744" y1="315" x2="156" y2="315" stroke="#059669" stroke-width="2.5" marker-end="url(#m-gw)"/>
+    <text x="450" y="305" fill="#047857" stroke="#fff" stroke-width="6">③ 显示经营码 + 应付 ¥10.03（含识别尾数）</text>
+
+    <line x1="156" y1="375" x2="1044" y2="375" stroke="#475569" stroke-width="2.5" marker-end="url(#m-user)"/>
+    <text x="600" y="365" fill="#334155" stroke="#fff" stroke-width="6">④ 支付宝扫码，按 ¥10.03 付款</text>
+
+    <line x1="756" y1="435" x2="1044" y2="435" stroke="#059669" stroke-width="2.5" marker-end="url(#m-gw)"/>
+    <text x="900" y="425" fill="#047857" stroke="#fff" stroke-width="6">⑤ 每 N 秒查账务明细</text>
+    <text x="900" y="456" font-size="12.5" fill="#64748b" stroke="#fff" stroke-width="5">官方 V3 接口 · 只有待付订单时才查</text>
+
+    <line x1="1044" y1="495" x2="756" y2="495" stroke="#1677ff" stroke-width="2.5" marker-end="url(#m-ali)"/>
+    <text x="900" y="485" fill="#0958d9" stroke="#fff" stroke-width="6">⑥ 流水：收入 ¥10.03 · 14:30:12</text>
+
+    <rect x="650" y="520" width="200" height="60" rx="12" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+    <text x="750" y="545" font-weight="700" fill="#047857">⑦ 金额 + 时间匹配</text>
+    <text x="750" y="568" font-size="14" fill="#047857">订单 → 已支付</text>
+
+    <line x1="744" y1="625" x2="456" y2="625" stroke="#059669" stroke-width="2.5" marker-end="url(#m-gw)"/>
+    <text x="600" y="615" fill="#047857" stroke="#fff" stroke-width="6">⑧ GET notify_url · TRADE_SUCCESS</text>
+
+    <line x1="456" y1="685" x2="744" y2="685" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#m-shop)"/>
+    <text x="600" y="675" fill="#6d28d9" stroke="#fff" stroke-width="6">⑨ 返回 success</text>
+
+    <line x1="444" y1="745" x2="156" y2="745" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#m-shop)"/>
+    <text x="300" y="735" fill="#6d28d9" stroke="#fff" stroke-width="6">⑩ 自动发卡 / 开通</text>
+  </g>
+
+  <text x="1176" y="788" text-anchor="end" font-size="13" fill="#94a3b8">github.com/FFFxueGawaine/AliMPay</text>
+</svg>
